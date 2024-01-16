@@ -10,13 +10,22 @@ public class MicCompiler {
     private FileReader fileReader = new FileReader();
     private FileWriter fileWriter = new FileWriter();
     private lib lib = new lib();
+    private CommentParser commentParser = new CommentParser();
 
     public MicCompiler() {
 
     }
 
     public String compileLine(int lineNumber, String line) {
-        return adresseParser.getNextAdresse(lineNumber) + " " + aluParser.getAluInstruction(line)[0] + " "
+
+        line = commentParser.removeComments(line);
+        System.out.println(line);
+
+        String nextAdresse = adresseParser.checkForGoto(line) != null ? adresseParser.checkForGoto(line)
+                : adresseParser.getNextAdresse(lineNumber);
+    
+
+        return nextAdresse + " " + aluParser.getAluInstruction(line)[0] + " "
                 + registerParser.getSetRegisterBinary(line) + " " + memoryParser.getMemoryInstructionBinary(line) + " "
                 + registerParser.getUsedRegisterBinary(line);
     }
@@ -36,7 +45,7 @@ public class MicCompiler {
 
     public void compileFileAndWrite(String path) {
         String[][] lines = compileFile(path);
-        fileWriter.createFileInPackageAndWriteLines(lines[1], path);
+        fileWriter.createFileInPackageAndWriteLines(lines, path);
     }
 
     public static void main(String[] args) {

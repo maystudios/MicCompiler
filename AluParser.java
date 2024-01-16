@@ -9,6 +9,7 @@ public class AluParser {
     private static final Map<String, String> operationToSignals = new HashMap<>();
 
     static {
+        
         operationToSignals.put("A AND B", "011000");
         operationToSignals.put("A OR B", "100000");
         operationToSignals.put("A + B", "101000");
@@ -75,7 +76,11 @@ public class AluParser {
             input = input.replaceFirst(usedRegister, "B");
         }
 
+        input = input.replace('H', 'A');
+
         String[] res = new String[2];
+        res[0] = "000000";
+        res[1] = "No operation";
 
         System.out.println(input);
 
@@ -98,7 +103,7 @@ public class AluParser {
     }
 
     public static void main(String[] args) {
-        String input1 = "MAR = -1;";
+        String input1 = "MAR = SP - H;";
         AluParser aluParser = new AluParser();
         String[] res = aluParser.getAluInstruction(input1);
         System.out.println(res[0]);

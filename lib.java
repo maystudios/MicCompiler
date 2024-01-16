@@ -35,4 +35,17 @@ public class lib {
     public static String setBinaryOneAtIndex(String binary, int index) {
         return binary.substring(0, index) + "1" + binary.substring(index + 1);
     }
+
+        public static String replaceAllLeftAndRightSpaces(String input) {
+            return input.replaceAll("^\\s+", "").replaceAll("\\s+$", "");
+        }
+
+    public static Boolean onlyContains(String input, String allowed) {
+        for (int i = 0; i < input.length(); i++) {
+            if (!allowed.contains(input.charAt(i) + "")) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

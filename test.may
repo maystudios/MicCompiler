@@ -1,3 +1,11 @@
-SP = MAR = SP + 1
-PC = PC + 1; fetch
-MDR = TOS = MBR; wr; goto Main1s
+PC = PC + 1; fetch goto 0       // Zero Adresse is the MBR
+
+goto 1                          // Jump to Addresse 1 because there is Main1
+
+MAR = SP = SP - 1; rd           // IADD
+H = TOS
+MDR = TOS = MDR + H; wr goto 1
+
+MAR = SP = SP - 1; rd           // ISUB
+H = TOS
+MDR = TOS = MDR - H; wr goto 1

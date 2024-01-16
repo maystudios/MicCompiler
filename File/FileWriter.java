@@ -32,9 +32,9 @@ public class FileWriter {
         return file.getName();
     }
 
-    public void createFileInPackageAndWriteLines(String[] lines, String oldFilePath) {
+    public void createFileInPackageAndWriteLines(String[][] code, String oldFilePath) {
         // Validate the path
-        if (lines == null || lines.length == 0) {
+        if (code[1] == null || code[1].length == 0) {
             throw new IllegalArgumentException("Invalid lines");
         }
 
@@ -45,9 +45,18 @@ public class FileWriter {
         File file = new File(newFilePath);
         // ...
 
+        String[] newLines = code[1];
+        for (int i = 0; i < newLines.length; i++) {
+            if (onlyCosists(code[0][i], "0")) {
+                newLines[i] = code[0][i];
+                continue;
+            }
+            newLines[i] = newLines[i] + " -> " + code[0][i];
+        }
+
         try {
             // Convert lines to byte array
-            byte[] bytes = String.join("\n", lines).getBytes();
+            byte[] bytes = String.join("\n", newLines).getBytes();
 
             // Write all bytes to the file
             Path filePath = file.toPath();
@@ -56,5 +65,14 @@ public class FileWriter {
             // Handle IOException
             throw new RuntimeException("Error writing file", e);
         }
+    }
+
+    private Boolean onlyCosists(String input, String allowed) {
+        for (int i = 0; i < input.length(); i++) {
+            if (!allowed.contains(input.charAt(i) + "")) {
+                return false;
+            }
+        }
+        return true;
     }
 }
