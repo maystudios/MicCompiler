@@ -45,7 +45,8 @@ public class RegisterParser {
             }
 
             // Process for used registers
-            String[] tokens = assignments[assignments.length - 1].split("[\\s+-]+"); // Split by whitespace, plus, and minus
+            String[] tokens = assignments[assignments.length - 1].split("[\\s+-]+"); // Split by whitespace, plus, and
+                                                                                     // minus
             for (String token : tokens) {
                 if (B_BUS_MAP.containsKey(token)) {
                     usedRegisters.add(token);
@@ -65,7 +66,7 @@ public class RegisterParser {
 
         String binary = "000000000";
         for (String setRegister : setRegisters) {
-            binary = setBinaryOneAtIndex(binary, C_BUS_MAP.get(setRegister));
+            binary = lib.setBinaryOneAtIndex(binary, C_BUS_MAP.get(setRegister));
         }
 
         return binary;
@@ -79,11 +80,7 @@ public class RegisterParser {
             throw new IllegalArgumentException("More than one register used in instruction");
         }
 
-        return lib.IntToBinary(B_BUS_MAP.get(usedRegisters.iterator().next()), 4);
-    }
-
-    private String setBinaryOneAtIndex(String binary, int index) {
-        return binary.substring(0, index) + "1" + binary.substring(index + 1);
+        return lib.IntToBinary(!usedRegisters.isEmpty() ? B_BUS_MAP.get(usedRegisters.iterator().next()) : 0, 4);
     }
 
     public static void main(String[] args) {
@@ -93,5 +90,5 @@ public class RegisterParser {
         RegisterParser registerParser = new RegisterParser();
         System.out.println("Used register binary: " + registerParser.getUsedRegisterBinary(input1));
         System.out.println("Set register binary: " + registerParser.getSetRegisterBinary(input1));
-}
+    }
 }

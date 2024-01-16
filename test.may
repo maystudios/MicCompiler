@@ -1,0 +1,4 @@
+MAR = SP = SP + 1; rd
+PC = PC + 1;
+MAR = SP = MDR = SP;
+PC = 1;

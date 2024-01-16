@@ -1,7 +1,7 @@
 public class lib {
-    
+
     public lib() {
-        
+
     }
 
     public static String IntToBinary(int input) {
@@ -10,7 +10,7 @@ public class lib {
             binary = "0" + binary;
         }
         return binary;
-    }   
+    }
 
     public static String IntToBinary(int input, int length) {
         String binary = Integer.toBinaryString(input);
@@ -30,5 +30,9 @@ public class lib {
             }
         }
         return result;
+    }
+
+    public static String setBinaryOneAtIndex(String binary, int index) {
+        return binary.substring(0, index) + "1" + binary.substring(index + 1);
     }
 }

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 public class AluParser {
 
     private static final Map<String, String> operationToSignals = new HashMap<>();
@@ -25,9 +24,9 @@ public class AluParser {
         operationToSignals.put("1", "111111");
         operationToSignals.put("0", "110101");
     }
-    
+
     public AluParser() {
-        
+
     }
 
     public static Map<String, Set<String>> parseAlu(String input) {
@@ -46,7 +45,8 @@ public class AluParser {
             }
 
             // Process for used registers
-            String[] tokens = assignments[assignments.length - 1].split("[\\s+-]+"); // Split by whitespace, plus, and minus
+            String[] tokens = assignments[assignments.length - 1].split("[\\s+-]+"); // Split by whitespace, plus, and
+                                                                                     // minus
             for (String token : tokens) {
                 if (RegisterParser.B_BUS_MAP.containsKey(token)) {
                     usedAlu.add(token);
@@ -67,21 +67,22 @@ public class AluParser {
         Set<String> setRegisters = result.get("Set");
         Set<String> usedRegisters = result.get("Used");
 
-        for (String setRegister: setRegisters) {
+        for (String setRegister : setRegisters) {
             input = input.replaceFirst(setRegister, "C");
         }
 
-        for (String usedRegister: usedRegisters) {
+        for (String usedRegister : usedRegisters) {
             input = input.replaceFirst(usedRegister, "B");
         }
 
-        System.out.println(input);
-
         String[] res = new String[2];
 
-        String operatingCode = input.substring(input.lastIndexOf("=") + 1, (input.indexOf(";") == -1) ? input.length() : input.indexOf(";"));
+        System.out.println(input);
 
-        for (String operation: operationToSignals.keySet()) {
+        String operatingCode = input.substring(input.lastIndexOf("=") + 1,
+                (input.indexOf(";") == -1) ? input.length() : input.indexOf(";"));
+
+        for (String operation : operationToSignals.keySet()) {
             if (replaceAllLeftAndRightSpaces(operatingCode).equals(operation)) {
                 res[0] = operationToSignals.get(operation);
                 res[1] = operation;
@@ -97,7 +98,7 @@ public class AluParser {
     }
 
     public static void main(String[] args) {
-        String input1 = "MAR = SP = SP + 1; rd";
+        String input1 = "MAR = -1;";
         AluParser aluParser = new AluParser();
         String[] res = aluParser.getAluInstruction(input1);
         System.out.println(res[0]);
