@@ -51,7 +51,7 @@ public class FileWriter {
 
             // Write all bytes to the file
             Path filePath = file.toPath();
-            Files.write(filePath, bytes, StandardOpenOption.CREATE_NEW);
+            Files.write(filePath, bytes, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             // Handle IOException
             throw new RuntimeException("Error writing file", e);
